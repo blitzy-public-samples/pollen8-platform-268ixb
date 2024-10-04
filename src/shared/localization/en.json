@@ -1,0 +1,40 @@
+{
+  "common": {
+    "appName": "Pollen8",
+    "loading": "Loading...",
+    "error": "An error occurred. Please try again."
+  },
+  "auth": {
+    "phoneVerification": {
+      "title": "Verify Your Phone",
+      "enterPhone": "Enter your phone number",
+      "sendCode": "Send Verification Code",
+      "enterCode": "Enter the code sent to your phone",
+      "verify": "Verify"
+    },
+    "onboarding": {
+      "title": "Complete Your Profile",
+      "selectIndustries": "Select at least 3 industries",
+      "selectInterests": "Select at least 3 interests",
+      "enterZipCode": "Enter your ZIP code",
+      "submit": "Complete Onboarding"
+    }
+  },
+  "profile": {
+    "title": "Your Profile",
+    "edit": "Edit Profile",
+    "save": "Save Changes"
+  },
+  "network": {
+    "title": "Your Network",
+    "connectionValue": "Connection Value: {{value}}",
+    "totalConnections": "Total Connections: {{count}}",
+    "addConnection": "Add Connection"
+  },
+  "invite": {
+    "title": "Invite Connections",
+    "generateLink": "Generate Invite Link",
+    "copyLink": "Copy Link",
+    "inviteSent": "Invite link copied to clipboard!"
+  }
+}
