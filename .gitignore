@@ -1,0 +1,49 @@
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build outputs
+/dist
+/build
+
+# Environment and configuration files
+.env
+.env.local
+.env.*.local
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Coverage directories
+/coverage
+
+# TypeScript compilation outputs
+*.tsbuildinfo
+
+# Next.js specific
+.next/
+out/
+
+# Database files
+*.sqlite
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Kubernetes secrets
+kubeconfig
