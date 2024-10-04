@@ -1,0 +1,185 @@
+name: Pollen8 CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  AWS_REGION: us-east-1  # Replace with your AWS region
+  ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+  EKS_CLUSTER_NAME: pollen8-cluster
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        component: [frontend, api, backend]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Cache npm dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+      - name: Install dependencies
+        run: |
+          cd src/${{ matrix.component }}
+          npm ci
+      - name: Run tests
+        run: |
+          cd src/${{ matrix.component }}
+          npm test
+      - name: Run npm audit
+        run: |
+          cd src/${{ matrix.component }}
+          npm audit --production
+
+  build:
+    name: Build and Push Docker Images
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        component: [frontend, api, backend]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/${{ matrix.component }}:$IMAGE_TAG src/${{ matrix.component }}
+          docker push $ECR_REGISTRY/${{ matrix.component }}:$IMAGE_TAG
+      - name: Run Snyk to check Docker image for vulnerabilities
+        uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ matrix.component }}:${{ github.sha }}
+          args: --file=src/${{ matrix.component }}/Dockerfile
+
+  deploy_staging:
+    name: Deploy to Staging
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Update kubeconfig
+        run: aws eks get-token --cluster-name ${{ env.EKS_CLUSTER_NAME }} | kubectl apply -f -
+      - name: Deploy to staging
+        run: |
+          # Update Kubernetes manifests with new image tags
+          sed -i 's|image:.*|image: ${{ env.ECR_REGISTRY }}/frontend:${{ github.sha }}|' infrastructure/kubernetes/frontend-deployment.yaml
+          sed -i 's|image:.*|image: ${{ env.ECR_REGISTRY }}/api:${{ github.sha }}|' infrastructure/kubernetes/backend-deployment.yaml
+          sed -i 's|image:.*|image: ${{ env.ECR_REGISTRY }}/backend:${{ github.sha }}|' infrastructure/kubernetes/backend-deployment.yaml
+          
+          # Apply Kubernetes manifests
+          kubectl apply -f infrastructure/kubernetes/
+      - name: Run integration tests
+        run: |
+          # Add your integration test commands here
+          echo "Running integration tests..."
+      - name: Run OWASP ZAP scan
+        uses: zaproxy/action-full-scan@v0.4.0
+        with:
+          target: 'https://staging.pollen8.com'
+      - name: Rollback on failure
+        if: failure()
+        run: |
+          kubectl rollout undo deployment/frontend
+          kubectl rollout undo deployment/api
+          kubectl rollout undo deployment/backend
+
+  deploy_production:
+    name: Deploy to Production
+    needs: deploy_staging
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Update kubeconfig
+        run: aws eks get-token --cluster-name ${{ env.EKS_CLUSTER_NAME }} | kubectl apply -f -
+      - name: Deploy canary
+        run: |
+          # Update Kubernetes manifests for canary deployment
+          sed -i 's|image:.*|image: ${{ env.ECR_REGISTRY }}/frontend:${{ github.sha }}|' infrastructure/kubernetes/frontend-canary.yaml
+          sed -i 's|image:.*|image: ${{ env.ECR_REGISTRY }}/api:${{ github.sha }}|' infrastructure/kubernetes/backend-canary.yaml
+          sed -i 's|image:.*|image: ${{ env.ECR_REGISTRY }}/backend:${{ github.sha }}|' infrastructure/kubernetes/backend-canary.yaml
+          
+          # Apply canary manifests
+          kubectl apply -f infrastructure/kubernetes/frontend-canary.yaml
+          kubectl apply -f infrastructure/kubernetes/backend-canary.yaml
+      - name: Monitor canary
+        run: |
+          # Add monitoring logic here
+          echo "Monitoring canary deployment..."
+          # Example: Use kubectl to check pod status and logs
+          kubectl get pods -l app=frontend-canary
+          kubectl get pods -l app=backend-canary
+      - name: Rollout full deployment
+        run: |
+          # Update main deployment with new image tags
+          kubectl set image deployment/frontend frontend=${{ env.ECR_REGISTRY }}/frontend:${{ github.sha }}
+          kubectl set image deployment/api api=${{ env.ECR_REGISTRY }}/api:${{ github.sha }}
+          kubectl set image deployment/backend backend=${{ env.ECR_REGISTRY }}/backend:${{ github.sha }}
+          
+          # Scale down canary
+          kubectl delete -f infrastructure/kubernetes/frontend-canary.yaml
+          kubectl delete -f infrastructure/kubernetes/backend-canary.yaml
+      - name: Verify deployment
+        run: |
+          kubectl rollout status deployment/frontend
+          kubectl rollout status deployment/api
+          kubectl rollout status deployment/backend
+      - name: Rollback on failure
+        if: failure()
+        run: |
+          kubectl rollout undo deployment/frontend
+          kubectl rollout undo deployment/api
+          kubectl rollout undo deployment/backend
+
+  notify:
+    name: Notify team
+    needs: [deploy_staging, deploy_production]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Slack Notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: Deployment to ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }} ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
