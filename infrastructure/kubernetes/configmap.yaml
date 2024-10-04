@@ -1,0 +1,41 @@
+# Pollen8 ConfigMap
+# This ConfigMap stores non-sensitive configuration data for the Pollen8 application.
+# It is consumed by both frontend and backend deployments.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pollen8-config
+  namespace: default
+data:
+  # Specifies the environment (e.g., production, staging, development)
+  NODE_ENV: "production"
+  
+  # The base URL for the backend API
+  API_URL: "https://api.pollen8.com"
+  
+  # The base URL for the frontend application
+  FRONTEND_URL: "https://pollen8.com"
+  
+  # Sets the logging verbosity for the application
+  LOG_LEVEL: "info"
+  
+  # Limits the number of connections a user can have
+  MAX_CONNECTIONS_PER_USER: "500"
+  
+  # Sets the time-to-live for invite links in days
+  INVITE_LINK_TTL_DAYS: "30"
+  
+  # Limits the number of nodes displayed in the D3.js network graph
+  D3_GRAPH_MAX_NODES: "100"
+
+# Note: This ConfigMap is referenced in both the frontend and backend Kubernetes Deployments.
+# The environment variables defined here are injected into the respective containers,
+# allowing for easy configuration management across different environments without changing the application code.
+
+# Security Consideration: While ConfigMaps are suitable for non-sensitive configuration data,
+# they should not be used for storing secrets. Sensitive information such as API keys,
+# database passwords, or JWT secrets should be stored in Kubernetes Secrets instead.
+
+# Maintenance: When updating the configuration, modify this ConfigMap and apply it to the cluster.
+# Depending on how it's mounted in the Deployments, pods may need to be restarted to pick up the new configuration values.
