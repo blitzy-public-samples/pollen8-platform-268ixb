@@ -1,0 +1,664 @@
+/* src/frontend/styles/index.css */
+/* This file serves as the main entry point for all styles in the Pollen8 frontend application */
+
+/* Import Tailwind CSS styles */
+@import './tailwind.css';
+
+/* Import custom animations */
+@import './animations.css';
+
+/* Global styles */
+:root {
+  --color-primary: #000000;
+  --color-secondary: #FFFFFF;
+}
+
+body {
+  font-family: 'Proxima Nova', sans-serif;
+  @apply bg-white text-black;
+}
+
+/* Requirement: Minimalist black and white aesthetic */
+/* Location: Technical specification/1.2 Scope/Product Overview */
+.pollen8-container {
+  @apply bg-white text-black;
+}
+
+/* Requirement: Responsive layouts */
+/* Location: Implied from modern web development standards */
+.responsive-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4;
+}
+
+/* Requirement: Visual Network Management */
+/* Location: Technical specification/1.1 System Objectives/Visual Network Management */
+.network-graph {
+  @apply w-full h-64 md:h-96 bg-gray-100 rounded-lg overflow-hidden;
+}
+
+.network-node {
+  @apply fill-current text-black stroke-current stroke-2;
+}
+
+.network-edge {
+  @apply stroke-current text-gray-400;
+}
+
+/* Requirement: User Experience Enhancement */
+/* Location: Implied from modern web application standards */
+.transition-element {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Custom button styles */
+.btn-primary {
+  @apply bg-black text-white py-2 px-4 rounded-full hover:bg-gray-800 transition-colors duration-300;
+}
+
+.btn-secondary {
+  @apply bg-white text-black border border-black py-2 px-4 rounded-full hover:bg-gray-100 transition-colors duration-300;
+}
+
+/* Form styles */
+.form-input {
+  @apply border-2 border-black rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black;
+}
+
+/* Card styles */
+.card {
+  @apply bg-white shadow-md rounded-lg overflow-hidden;
+}
+
+.card-header {
+  @apply bg-black text-white p-4;
+}
+
+.card-body {
+  @apply p-4;
+}
+
+/* Navigation styles */
+.nav-link {
+  @apply text-black hover:text-gray-600 transition-colors duration-300;
+}
+
+.nav-link-active {
+  @apply font-bold;
+}
+
+/* Utility classes */
+.text-primary {
+  @apply text-black;
+}
+
+.bg-primary {
+  @apply bg-black;
+}
+
+.text-secondary {
+  @apply text-white;
+}
+
+.bg-secondary {
+  @apply bg-white;
+}
+
+/* Responsive typography */
+h1 {
+  @apply text-3xl md:text-4xl font-bold mb-4;
+}
+
+h2 {
+  @apply text-2xl md:text-3xl font-semibold mb-3;
+}
+
+h3 {
+  @apply text-xl md:text-2xl font-semibold mb-2;
+}
+
+p {
+  @apply text-base md:text-lg mb-4;
+}
+
+/* Accessibility */
+.sr-only {
+  @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none;
+  }
+}
+
+/* Dark mode support (if needed in the future) */
+@media (prefers-color-scheme: dark) {
+  .dark-mode-support {
+    @apply bg-black text-white;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-200;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-black rounded-full;
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-in-out;
+}
+
+/* Responsive images */
+.responsive-image {
+  @apply max-w-full h-auto;
+}
+
+/* Tooltips */
+.tooltip {
+  @apply invisible absolute;
+}
+
+.has-tooltip:hover .tooltip {
+  @apply visible z-50;
+}
+
+/* Custom focus styles for better accessibility */
+.custom-focus:focus {
+  @apply outline-none ring-2 ring-black ring-opacity-50;
+}
+
+/* Responsive table */
+.responsive-table {
+  @apply w-full overflow-x-auto;
+}
+
+/* Placeholder styles */
+::placeholder {
+  @apply text-gray-400;
+}
+
+/* Custom list styles */
+.custom-list {
+  @apply list-disc list-inside;
+}
+
+/* Responsive video container */
+.video-container {
+  @apply relative pb-9/16;
+}
+
+.video-container iframe {
+  @apply absolute top-0 left-0 w-full h-full;
+}
+
+/* Utility class for text truncation */
+.truncate {
+  @apply overflow-hidden whitespace-nowrap text-ellipsis;
+}
+
+/* Responsive padding utility classes */
+.p-responsive {
+  @apply p-4 md:p-6 lg:p-8;
+}
+
+/* Custom checkbox styles */
+.custom-checkbox {
+  @apply appearance-none w-4 h-4 border border-black rounded-sm checked:bg-black checked:border-transparent focus:outline-none focus:ring-2 focus:ring-black;
+}
+
+/* Custom radio button styles */
+.custom-radio {
+  @apply appearance-none w-4 h-4 border border-black rounded-full checked:bg-black checked:border-transparent focus:outline-none focus:ring-2 focus:ring-black;
+}
+
+/* Responsive flex container */
+.flex-responsive {
+  @apply flex flex-col md:flex-row;
+}
+
+/* Custom select styles */
+.custom-select {
+  @apply appearance-none w-full bg-white border border-black rounded-md py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-black;
+}
+
+/* Utility class for aspect ratio */
+.aspect-ratio-16-9 {
+  @apply relative pb-9/16;
+}
+
+.aspect-ratio-16-9 > * {
+  @apply absolute top-0 left-0 w-full h-full object-cover;
+}
+
+/* Responsive margin utility classes */
+.m-responsive {
+  @apply m-4 md:m-6 lg:m-8;
+}
+
+/* Custom file input styles */
+.custom-file-input::-webkit-file-upload-button {
+  @apply bg-black text-white py-2 px-4 rounded-full hover:bg-gray-800 transition-colors duration-300;
+}
+
+/* Utility class for text gradient */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-black to-gray-600;
+}
+
+/* Responsive order utility classes */
+.order-responsive {
+  @apply order-2 md:order-1;
+}
+
+/* Custom range input styles */
+.custom-range {
+  @apply appearance-none w-full h-2 bg-gray-200 rounded-full outline-none;
+}
+
+.custom-range::-webkit-slider-thumb {
+  @apply appearance-none w-4 h-4 bg-black rounded-full cursor-pointer;
+}
+
+/* Utility class for sticky positioning */
+.sticky-top {
+  @apply sticky top-0 z-10;
+}
+
+/* Custom toggle switch styles */
+.toggle-switch {
+  @apply relative inline-block w-10 h-6 bg-gray-300 rounded-full cursor-pointer;
+}
+
+.toggle-switch::after {
+  content: '';
+  @apply absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300;
+}
+
+.toggle-switch:checked::after {
+  @apply transform translate-x-4;
+}
+
+/* Responsive gap utility classes */
+.gap-responsive {
+  @apply gap-4 md:gap-6 lg:gap-8;
+}
+
+/* Custom progress bar styles */
+.progress-bar {
+  @apply w-full h-2 bg-gray-200 rounded-full overflow-hidden;
+}
+
+.progress-bar-fill {
+  @apply h-full bg-black transition-all duration-300 ease-out;
+}
+
+/* Utility class for object fit */
+.object-fit-cover {
+  @apply object-cover w-full h-full;
+}
+
+/* Custom blockquote styles */
+blockquote {
+  @apply border-l-4 border-black pl-4 italic text-gray-600;
+}
+
+/* Responsive text alignment utility classes */
+.text-align-responsive {
+  @apply text-left md:text-center;
+}
+
+/* Custom badge styles */
+.badge {
+  @apply inline-block px-2 py-1 text-xs font-bold rounded-full bg-black text-white;
+}
+
+/* Utility class for box shadow */
+.shadow-custom {
+  @apply shadow-md hover:shadow-lg transition-shadow duration-300;
+}
+
+/* Custom accordion styles */
+.accordion-header {
+  @apply cursor-pointer py-2 px-4 bg-gray-100 hover:bg-gray-200 transition-colors duration-300;
+}
+
+.accordion-content {
+  @apply py-2 px-4 bg-white;
+}
+
+/* Responsive width utility classes */
+.w-responsive {
+  @apply w-full md:w-2/3 lg:w-1/2;
+}
+
+/* Custom timeline styles */
+.timeline {
+  @apply relative border-l-2 border-black pl-4;
+}
+
+.timeline-item {
+  @apply mb-4 relative;
+}
+
+.timeline-item::before {
+  content: '';
+  @apply absolute -left-6 top-2 w-4 h-4 bg-black rounded-full;
+}
+
+/* Utility class for text stroke */
+.text-stroke {
+  -webkit-text-stroke: 1px black;
+  @apply text-transparent;
+}
+
+/* Custom styles for code blocks */
+pre {
+  @apply bg-gray-100 p-4 rounded-md overflow-x-auto;
+}
+
+code {
+  @apply font-mono text-sm;
+}
+
+/* Responsive height utility classes */
+.h-responsive {
+  @apply h-64 md:h-96 lg:h-128;
+}
+
+/* Custom styles for form validation */
+.input-error {
+  @apply border-red-500 focus:ring-red-500;
+}
+
+.error-message {
+  @apply text-red-500 text-sm mt-1;
+}
+
+/* Utility class for backdrop filter */
+.backdrop-blur {
+  @apply backdrop-filter backdrop-blur-md;
+}
+
+/* Custom styles for tooltips */
+.tooltip {
+  @apply invisible absolute z-10 py-2 px-3 text-sm font-medium text-white bg-black rounded-lg opacity-0 transition-opacity duration-300;
+}
+
+.has-tooltip:hover .tooltip {
+  @apply visible opacity-100;
+}
+
+/* Responsive column utility classes */
+.cols-responsive {
+  @apply columns-1 md:columns-2 lg:columns-3;
+}
+
+/* Custom styles for notifications */
+.notification {
+  @apply fixed top-4 right-4 p-4 bg-black text-white rounded-md shadow-lg z-50 transform translate-x-full transition-transform duration-300;
+}
+
+.notification.show {
+  @apply translate-x-0;
+}
+
+/* Utility class for text decoration */
+.text-underline-custom {
+  @apply underline decoration-2 underline-offset-4;
+}
+
+/* Custom styles for pagination */
+.pagination {
+  @apply flex justify-center space-x-2;
+}
+
+.pagination-item {
+  @apply px-3 py-1 border border-black rounded-md hover:bg-black hover:text-white transition-colors duration-300;
+}
+
+/* Responsive gap utility classes */
+.gap-responsive {
+  @apply gap-4 md:gap-6 lg:gap-8;
+}
+
+/* Custom styles for tabs */
+.tabs {
+  @apply flex border-b border-black;
+}
+
+.tab {
+  @apply px-4 py-2 border-b-2 border-transparent hover:border-black transition-colors duration-300;
+}
+
+.tab.active {
+  @apply border-black;
+}
+
+/* Utility class for text shadow */
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom styles for breadcrumbs */
+.breadcrumbs {
+  @apply flex items-center space-x-2 text-sm text-gray-600;
+}
+
+.breadcrumb-separator {
+  @apply text-gray-400;
+}
+
+/* Responsive order utility classes */
+.order-responsive {
+  @apply order-2 md:order-1;
+}
+
+/* Custom styles for alerts */
+.alert {
+  @apply p-4 rounded-md mb-4;
+}
+
+.alert-info {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.alert-success {
+  @apply bg-green-100 text-green-800;
+}
+
+.alert-warning {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.alert-error {
+  @apply bg-red-100 text-red-800;
+}
+
+/* Utility class for aspect ratio */
+.aspect-ratio-1-1 {
+  @apply relative pb-1/1;
+}
+
+.aspect-ratio-1-1 > * {
+  @apply absolute top-0 left-0 w-full h-full object-cover;
+}
+
+/* Custom styles for modals */
+.modal {
+  @apply fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50;
+}
+
+.modal-content {
+  @apply bg-white p-6 rounded-lg shadow-xl max-w-md w-full;
+}
+
+/* Responsive text size utility classes */
+.text-responsive {
+  @apply text-base md:text-lg lg:text-xl;
+}
+
+/* Custom styles for tooltips */
+.tooltip {
+  @apply absolute z-10 p-2 bg-black text-white text-sm rounded-md opacity-0 transition-opacity duration-300 pointer-events-none;
+}
+
+.has-tooltip:hover .tooltip {
+  @apply opacity-100;
+}
+
+/* Utility class for line clamp */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Custom styles for skeletons (loading placeholders) */
+.skeleton {
+  @apply bg-gray-200 animate-pulse rounded;
+}
+
+.skeleton-text {
+  @apply h-4 w-3/4 mb-2;
+}
+
+.skeleton-circle {
+  @apply h-12 w-12 rounded-full;
+}
+
+/* Responsive gap utility classes */
+.gap-responsive {
+  @apply gap-4 md:gap-6 lg:gap-8;
+}
+
+/* Custom styles for tags */
+.tag {
+  @apply inline-block px-2 py-1 text-sm bg-gray-200 text-gray-700 rounded-full;
+}
+
+/* Utility class for backdrop filter */
+.backdrop-blur {
+  @apply backdrop-filter backdrop-blur-md;
+}
+
+/* Custom styles for accordions */
+.accordion {
+  @apply border-b border-gray-200;
+}
+
+.accordion-header {
+  @apply flex justify-between items-center py-4 w-full text-left;
+}
+
+.accordion-content {
+  @apply py-4;
+}
+
+/* Responsive margin utility classes */
+.m-responsive {
+  @apply m-4 md:m-6 lg:m-8;
+}
+
+/* Custom styles for star ratings */
+.star-rating {
+  @apply flex items-center;
+}
+
+.star {
+  @apply text-gray-300 hover:text-yellow-400 cursor-pointer;
+}
+
+.star.filled {
+  @apply text-yellow-400;
+}
+
+/* Utility class for text gradient */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-black to-gray-600;
+}
+
+/* Custom styles for chat bubbles */
+.chat-bubble {
+  @apply max-w-xs p-3 rounded-lg;
+}
+
+.chat-bubble-sent {
+  @apply bg-black text-white ml-auto;
+}
+
+.chat-bubble-received {
+  @apply bg-gray-200 text-black;
+}
+
+/* Responsive padding utility classes */
+.p-responsive {
+  @apply p-4 md:p-6 lg:p-8;
+}
+
+/* Custom styles for timelines */
+.timeline {
+  @apply border-l border-gray-200 ml-3;
+}
+
+.timeline-item {
+  @apply mb-10 ml-6;
+}
+
+.timeline-dot {
+  @apply absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white;
+}
+
+/* Utility class for object fit */
+.object-fit-cover {
+  @apply object-cover w-full h-full;
+}
+
+/* Custom styles for carousels */
+.carousel {
+  @apply relative overflow-hidden;
+}
+
+.carousel-item {
+  @apply absolute inset-0 transition-opacity duration-500 ease-in-out;
+}
+
+.carousel-nav {
+  @apply absolute bottom-0 left-0 right-0 flex justify-center space-x-2 pb-4;
+}
+
+.carousel-dot {
+  @apply w-2 h-2 rounded-full bg-gray-300;
+}
+
+.carousel-dot-active {
+  @apply bg-black;
+}
+
+/* Responsive width utility classes */
+.w-responsive {
+  @apply w-full md:w-2/3 lg:w-1/2;
+}
+
+/* Ensure all animations can be disabled for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
