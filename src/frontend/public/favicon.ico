@@ -1,0 +1,32 @@
+1. Create a square image that represents the Pollen8 brand, adhering to the black and white aesthetic mentioned in the technical specification.
+
+2. The image should be simple and recognizable, even at small sizes.
+
+3. Use an image editing tool or an online favicon generator to create the .ico file. The file should include multiple sizes, typically:
+   - 16x16 pixels
+   - 32x32 pixels
+   - 48x48 pixels
+
+4. Save the file as "favicon.ico" in the src/frontend/public/ directory.
+
+5. Ensure the favicon is properly referenced in the HTML head of the application. This is typically done in the src/frontend/pages/_document.tsx file:
+
+   <link rel="icon" href="/favicon.ico" />
+
+6. The favicon.ico file should be kept small, ideally under 5KB, to ensure fast loading.
+
+7. For better compatibility with modern browsers and devices, consider creating additional favicon formats (like PNG) and referencing them in the HTML head as well.
+
+8. Make sure the favicon is properly configured in the src/frontend/public/manifest.json file for PWA functionality:
+
+   {
+     "icons": [
+       {
+         "src": "/favicon.ico",
+         "sizes": "64x64 32x32 24x24 16x16",
+         "type": "image/x-icon"
+       }
+     ]
+   }
+
+Remember to test the favicon across different browsers and devices to ensure it displays correctly in various contexts, such as browser tabs, bookmarks, and when the website is pinned to the taskbar or home screen.
