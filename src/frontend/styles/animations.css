@@ -1,0 +1,133 @@
+/* This file contains CSS animations for the Pollen8 frontend application,
+   enhancing the user interface with smooth and engaging transitions and effects. */
+
+/* Network Graph Animations */
+@keyframes nodeEnter {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes nodeExit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+@keyframes linkPulse {
+  0% {
+    stroke-width: 1px;
+    stroke-opacity: 1;
+  }
+  50% {
+    stroke-width: 3px;
+    stroke-opacity: 0.6;
+  }
+  100% {
+    stroke-width: 1px;
+    stroke-opacity: 1;
+  }
+}
+
+/* UI Element Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideOut {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+
+/* Button and Interactive Element Animations */
+@keyframes buttonPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Page Transition Animations */
+@keyframes pageTransition {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Animation Utility Classes */
+.animate-fadeIn { animation: fadeIn 0.3s ease-in-out; }
+.animate-fadeOut { animation: fadeOut 0.3s ease-in-out; }
+.animate-slideIn { animation: slideIn 0.3s ease-in-out; }
+.animate-slideOut { animation: slideOut 0.3s ease-in-out; }
+.animate-pulse { animation: buttonPulse 1s infinite; }
+.animate-spin { animation: spin 1s linear infinite; }
+
+/* Performance Considerations */
+.will-change-opacity { will-change: opacity; }
+.will-change-transform { will-change: transform; }
+
+/* Accessibility - Respecting user preferences for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Network Graph Animation Application */
+.network-node { animation: nodeEnter 0.5s ease-out; }
+.network-node.exiting { animation: nodeExit 0.5s ease-in; }
+.network-link { animation: linkPulse 2s infinite; }
+
+/* UI Element Animation Application */
+.fade-in { animation: fadeIn 0.3s ease-in-out; }
+.fade-out { animation: fadeOut 0.3s ease-in-out; }
+.slide-in { animation: slideIn 0.3s ease-in-out; }
+.slide-out { animation: slideOut 0.3s ease-in-out; }
+
+/* Button and Interactive Element Animation Application */
+.pulse-button { animation: buttonPulse 1s infinite; }
+.loading-spinner { animation: spin 1s linear infinite; }
+
+/* Page Transition Animation Application */
+.page-transition { animation: pageTransition 0.5s ease-out; }
+
+/* Optimizing animations for performance */
+.optimize-animation {
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+}
+
+/* Ensuring animations can be disabled for users sensitive to motion */
+@media (prefers-reduced-motion: reduce) {
+  .disable-animations {
+    animation: none !important;
+    transition: none !important;
+  }
+}
