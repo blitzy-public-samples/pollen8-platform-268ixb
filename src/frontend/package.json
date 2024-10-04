@@ -1,0 +1,74 @@
+{
+  "name": "pollen8-frontend",
+  "version": "1.0.0",
+  "description": "Frontend application for the Pollen8 professional networking platform",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --ext .ts,.tsx",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "next": "^13.4.4",
+    "d3": "^7.8.4",
+    "axios": "^1.4.0",
+    "tailwindcss": "^3.3.2",
+    "@tanstack/react-query": "^4.29.7",
+    "@types/react": "^18.2.7",
+    "@types/react-dom": "^18.2.4",
+    "date-fns": "^2.30.0",
+    "lodash": "^4.17.21",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.0",
+    "@types/jest": "^29.5.1",
+    "@types/lodash": "^4.14.195",
+    "@types/node": "^20.2.5",
+    "@types/uuid": "^9.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.59.7",
+    "@typescript-eslint/parser": "^5.59.7",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.41.0",
+    "eslint-config-next": "^13.4.4",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
+    "postcss": "^8.4.24",
+    "prettier": "^2.8.8",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "author": "Pollen8 Development Team",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pollen8/frontend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pollen8/frontend/issues"
+  },
+  "homepage": "https://pollen8.com"
+}
