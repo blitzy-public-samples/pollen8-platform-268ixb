@@ -1,0 +1,8 @@
+Allow: /
+Disallow: /auth/
+Disallow: /profile/
+Disallow: /network/
+Disallow: /invites/
+Disallow: /api/
+
+Sitemap: https://www.pollen8.com/sitemap.xml
