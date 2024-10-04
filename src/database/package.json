@@ -1,0 +1,39 @@
+{
+  "name": "@pollen8/database",
+  "version": "1.0.0",
+  "description": "Database module for Pollen8 platform",
+  "main": "index.js",
+  "scripts": {
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migration:generate": "npm run typeorm migration:generate -- -n",
+    "migration:run": "npm run typeorm migration:run",
+    "migration:revert": "npm run typeorm migration:revert",
+    "seed:run": "ts-node src/database/scripts/run-seeds.ts"
+  },
+  "dependencies": {
+    "typeorm": "^0.3.0",
+    "pg": "^8.7.0",
+    "dotenv": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.0.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.5.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pollen8/pollen8-platform.git"
+  },
+  "keywords": [
+    "pollen8",
+    "database",
+    "typeorm",
+    "postgresql"
+  ],
+  "author": "Pollen8 Development Team",
+  "license": "UNLICENSED",
+  "private": true
+}
