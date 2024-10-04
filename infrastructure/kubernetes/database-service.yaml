@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pollen8-database
+  namespace: pollen8
+  labels:
+    app: pollen8
+    tier: database
+spec:
+  selector:
+    app: pollen8-database
+  ports:
+    - port: 5432
+      targetPort: 5432
+  type: ClusterIP
