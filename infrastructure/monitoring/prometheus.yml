@@ -1,0 +1,64 @@
+# Prometheus configuration for Pollen8 project
+# This file contains the configuration for Prometheus, the monitoring and alerting toolkit used in the Pollen8 project.
+
+# Global configuration
+global:
+  scrape_interval: 15s     # Set the scrape interval to every 15 seconds
+  evaluation_interval: 15s # Evaluate rules every 15 seconds
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+# Rule files
+rule_files:
+  - "rules/alert_rules.yml"
+
+# Scrape configurations
+scrape_configs:
+  # Kubernetes API servers
+  - job_name: 'kubernetes-apiservers'
+    kubernetes_sd_configs:
+      - role: endpoints
+
+  # Kubernetes nodes
+  - job_name: 'kubernetes-nodes'
+    kubernetes_sd_configs:
+      - role: node
+
+  # Kubernetes pods
+  - job_name: 'kubernetes-pods'
+    kubernetes_sd_configs:
+      - role: pod
+
+  # Kubernetes services
+  - job_name: 'kubernetes-services'
+    kubernetes_sd_configs:
+      - role: service
+
+  # Pollen8 backend
+  - job_name: 'pollen8-backend'
+    static_configs:
+      - targets: ['backend:3000']
+
+  # Pollen8 frontend
+  - job_name: 'pollen8-frontend'
+    static_configs:
+      - targets: ['frontend:80']
+
+  # Pollen8 database
+  - job_name: 'pollen8-database'
+    static_configs:
+      - targets: ['database:5432']
+
+# Additional notes:
+# - The actual configuration may vary based on the specific infrastructure setup and monitoring requirements of the Pollen8 project.
+# - This configuration file is crucial for setting up proper monitoring of the Pollen8 platform, ensuring that all components are observed and any issues can be quickly identified and addressed.
+# - The configuration should be aligned with the overall monitoring strategy, including integration with Grafana for visualization and Alertmanager for alert handling.
+# - Regular updates to this file may be necessary as the Pollen8 platform evolves, new services are added, or monitoring requirements change.
+
+# Requirements addressed:
+# - Monitoring (Technical specification/1.1 System Objectives): Set up monitoring for the Pollen8 platform
