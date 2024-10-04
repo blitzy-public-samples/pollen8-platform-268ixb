@@ -1,0 +1,57 @@
+# Kubernetes Deployment for Pollen8 Frontend Application
+# This file defines the deployment strategy for the frontend, ensuring high availability and efficient updates.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pollen8-frontend
+  labels:
+    app: pollen8-frontend
+spec:
+  # Specify 3 replicas for high availability and load distribution
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pollen8-frontend
+  template:
+    metadata:
+      labels:
+        app: pollen8-frontend
+    spec:
+      containers:
+      - name: pollen8-frontend
+        # Use environment variables for dynamic image tag
+        image: ${ECR_REGISTRY}/pollen8-frontend:${IMAGE_TAG}
+        ports:
+        - containerPort: 80
+        resources:
+          # Set resource requests and limits for efficient scaling and resource allocation
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        # Mount ConfigMap and Secrets for external configuration
+        envFrom:
+        - configMapRef:
+            name: pollen8-frontend-config
+        - secretRef:
+            name: pollen8-frontend-secrets
+        # Implement readiness probe for improved reliability
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        # Implement liveness probe for improved reliability
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 10
+
+# This deployment uses a rolling update strategy (default) for zero-downtime updates.
+# The use of ConfigMaps and Secrets allows for environment-specific settings without changing the deployment file.
